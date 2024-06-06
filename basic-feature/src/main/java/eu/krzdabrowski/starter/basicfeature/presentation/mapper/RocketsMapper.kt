@@ -16,4 +16,5 @@ fun Rocket.toPresentationModel() = RocketDisplayable(
     weightInTonnes = weight / TONNE,
     wikiUrl = wikiUrl,
     imageUrl = imageUrl,
+    country = country,
 )

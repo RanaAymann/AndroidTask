@@ -5,4 +5,6 @@ sealed class NavigationDestination(
 ) {
     data object Rockets : NavigationDestination("rocketsDestination")
     data object Back : NavigationDestination("navigationBack")
+    data class RocketDetail(val rocketName: String) : NavigationDestination("rocket_detail/$rocketName")
+
 }

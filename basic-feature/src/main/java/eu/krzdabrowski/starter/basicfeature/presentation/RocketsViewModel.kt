@@ -38,7 +38,9 @@ class RocketsViewModel @Inject constructor(
 
     override fun mapIntents(intent: RocketsIntent): Flow<PartialState> = when (intent) {
         is RefreshRockets -> refreshRockets()
-        is RocketClicked -> rocketClicked(intent.uri)
+//        is RocketClicked -> rocketClicked(intent.uri)
+        is RocketClicked -> rocketClicked(intent.rocketName)
+
     }
 
     override fun reduceUiState(

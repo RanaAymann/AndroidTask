@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import eu.krzdabrowski.starter.basicfeature.R
 import eu.krzdabrowski.starter.basicfeature.presentation.model.RocketDisplayable
+import eu.krzdabrowski.starter.basicfeature.utlis.DateUtils
 import eu.krzdabrowski.starter.core.design.Typography
 
 @Composable
@@ -49,11 +50,11 @@ fun RocketItem(
                 ),
                 style = Typography.bodyMedium,
             )
-
+            // new date format
             Text(
                 text = stringResource(
                     id = R.string.rocket_first_flight,
-                    rocket.firstFlightDate,
+                  DateUtils().formatDate(rocket.firstFlightDate),
                 ),
                 style = Typography.bodyMedium,
             )
@@ -73,6 +74,15 @@ fun RocketItem(
                 ),
                 style = Typography.bodyMedium,
             )
+            // country
+            Text(
+                text = stringResource(
+                    id = R.string.country,
+                    rocket.country,
+                ),
+                style = Typography.bodyMedium,
+            )
+
         }
 
         AsyncImage(

@@ -9,4 +9,6 @@
     <string name="rockets_error_refreshing">Sorry, something went wrong when refreshing rockets</string>
 
     <string name="rocket_image_content_description">Rocket image</string>
+
+    <string name="country">Country: %s</string>
 </resources>
