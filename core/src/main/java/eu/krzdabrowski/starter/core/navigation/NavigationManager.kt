@@ -28,4 +28,14 @@ class NavigationManager @Inject constructor(
             })
         }
     }
+
+
+    fun navigateToRocketDetail(rocketName : String) {
+        externalMainImmediateScope.launch {
+            navigationCommandChannel.send(object : NavigationCommand {
+                override val destination: String = NavigationDestination.RocketDetail(rocketName).route
+
+            })
+        }
+    }
 }

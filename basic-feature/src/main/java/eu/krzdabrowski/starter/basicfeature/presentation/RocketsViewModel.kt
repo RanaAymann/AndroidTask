@@ -6,14 +6,15 @@ import eu.krzdabrowski.starter.basicfeature.domain.usecase.GetRocketsUseCase
 import eu.krzdabrowski.starter.basicfeature.domain.usecase.RefreshRocketsUseCase
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsEvent.OpenWebBrowserWithDetails
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsIntent.RefreshRockets
-import eu.krzdabrowski.starter.basicfeature.presentation.RocketsIntent.RocketClicked
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState.PartialState
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState.PartialState.Error
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState.PartialState.Fetched
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState.PartialState.Loading
 import eu.krzdabrowski.starter.basicfeature.presentation.mapper.toPresentationModel
+import eu.krzdabrowski.starter.core.navigation.NavigationManager
 import eu.krzdabrowski.starter.core.presentation.mvi.BaseViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -28,6 +29,7 @@ class RocketsViewModel @Inject constructor(
     private val refreshRocketsUseCase: RefreshRocketsUseCase,
     savedStateHandle: SavedStateHandle,
     rocketsInitialState: RocketsUiState,
+    private val navigationManager: NavigationManager,
 ) : BaseViewModel<RocketsUiState, PartialState, RocketsEvent, RocketsIntent>(
     savedStateHandle,
     rocketsInitialState,
@@ -38,9 +40,10 @@ class RocketsViewModel @Inject constructor(
 
     override fun mapIntents(intent: RocketsIntent): Flow<PartialState> = when (intent) {
         is RefreshRockets -> refreshRockets()
-//        is RocketClicked -> rocketClicked(intent.uri)
-        is RocketClicked -> rocketClicked(intent.rocketName)
-
+        is RocketsIntent.RocketClicked -> {
+            navigateToRocketDetail(intent.rocketName)
+            emptyFlow()
+        }
     }
 
     override fun reduceUiState(
@@ -92,5 +95,9 @@ class RocketsViewModel @Inject constructor(
         if (uri.startsWith(HTTP_PREFIX) || uri.startsWith(HTTPS_PREFIX)) {
             setEvent(OpenWebBrowserWithDetails(uri))
         }
+    }
+
+     private fun navigateToRocketDetail(rocketName: String) {
+        navigationManager.navigateToRocketDetail(rocketName)
     }
 }

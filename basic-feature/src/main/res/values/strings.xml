@@ -11,4 +11,7 @@
     <string name="rocket_image_content_description">Rocket image</string>
 
     <string name="country">Country: %s</string>
+    <string name="rocketName">Rocket Name</string>
+    <string name="rocketDetails">Rocket Details</string>
+
 </resources>

@@ -27,8 +27,10 @@ import eu.krzdabrowski.starter.basicfeature.presentation.RocketsIntent.RefreshRo
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsIntent.RocketClicked
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsViewModel
+import eu.krzdabrowski.starter.core.navigation.NavigationManager
 import eu.krzdabrowski.starter.core.utils.collectWithLifecycle
 import kotlinx.coroutines.flow.Flow
+
 
 @Composable
 fun RocketsRoute(
@@ -87,6 +89,29 @@ internal fun RocketsScreen(
 }
 
 @Composable
+private fun RocketsAvailableContent(
+    snackbarHostState: SnackbarHostState,
+    uiState: RocketsUiState,
+    onRocketClick: (String) -> Unit,
+) {
+    if (uiState.isError) {
+        val errorMessage = stringResource(R.string.rockets_error_refreshing)
+
+        LaunchedEffect(snackbarHostState) {
+            snackbarHostState.showSnackbar(
+                message = errorMessage,
+            )
+        }
+    }
+
+    RocketsListContent(
+        rocketList = uiState.rockets,
+        onRocketClick = onRocketClick,
+    )
+}
+
+
+@Composable
 private fun HandlePullToRefresh(
     pullState: PullToRefreshState,
     uiState: RocketsUiState,
@@ -118,27 +143,7 @@ private fun HandleEvents(events: Flow<RocketsEvent>) {
     }
 }
 
-@Composable
-private fun RocketsAvailableContent(
-    snackbarHostState: SnackbarHostState,
-    uiState: RocketsUiState,
-    onRocketClick: (String) -> Unit,
-) {
-    if (uiState.isError) {
-        val errorMessage = stringResource(R.string.rockets_error_refreshing)
 
-        LaunchedEffect(snackbarHostState) {
-            snackbarHostState.showSnackbar(
-                message = errorMessage,
-            )
-        }
-    }
-
-    RocketsListContent(
-        rocketList = uiState.rockets,
-        onRocketClick = onRocketClick,
-    )
-}
 
 @Composable
 private fun RocketsNotAvailableContent(uiState: RocketsUiState) {

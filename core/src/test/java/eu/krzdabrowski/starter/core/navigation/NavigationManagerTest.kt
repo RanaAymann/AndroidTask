@@ -111,4 +111,6 @@ class NavigationManagerTest {
     private fun setUpNavigationManager() {
         objectUnderTest = NavigationManager(testScope)
     }
+
+
 }
